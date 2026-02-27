@@ -26,8 +26,8 @@ jobs:
 
       - name: Build image
         run: |
-          ansible-builder build -t ghcr.io/${{ github.repository_owner }}/ansible-ee-netbox:2.0
+          ansible-builder build -t ghcr.io/warklot/ansible-ee-netbox:2.0
 
       - name: Push image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/ansible-ee-netbox:2.0
+          docker push ghcr.io/warklot/ansible-ee-netbox:2.0
