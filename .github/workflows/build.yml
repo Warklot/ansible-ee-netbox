@@ -1,0 +1,33 @@
+name: Build and Push EE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ansible-builder
+        run: |
+          pip install ansible-builder
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: |
+          ansible-builder build -t ghcr.io/${{ github.repository_owner }}/ansible-ee-netbox:2.0
+
+      - name: Push image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/ansible-ee-netbox:2.0
